@@ -34,11 +34,11 @@ jobs:
       matrix:
         include:
           - os: macos-latest      # arm64 (M1/M2/M3)
-            artifact: slack-darwin-arm64
+            artifact: slackasme-darwin-arm64
           - os: macos-15-intel    # Intel x64
-            artifact: slack-darwin-amd64
+            artifact: slackasme-darwin-amd64
           - os: ubuntu-latest     # Linux x64
-            artifact: slack-linux-amd64
+            artifact: slackasme-linux-amd64
 
     runs-on: ${{ matrix.os }}
 
@@ -93,9 +93,9 @@ jobs:
           {
             echo 'CHECKSUMS<<EOF'
             echo '```'
-            cat slack-darwin-arm64/slack-darwin-arm64.sha256
-            cat slack-darwin-amd64/slack-darwin-amd64.sha256
-            cat slack-linux-amd64/slack-linux-amd64.sha256
+            cat slackasme-darwin-arm64/slackasme-darwin-arm64.sha256
+            cat slackasme-darwin-amd64/slackasme-darwin-amd64.sha256
+            cat slackasme-linux-amd64/slackasme-linux-amd64.sha256
             echo '```'
             echo 'EOF'
           } >> "$GITHUB_OUTPUT"
@@ -104,12 +104,12 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            slack-darwin-arm64/slack-darwin-arm64
-            slack-darwin-arm64/slack-darwin-arm64.sha256
-            slack-darwin-amd64/slack-darwin-amd64
-            slack-darwin-amd64/slack-darwin-amd64.sha256
-            slack-linux-amd64/slack-linux-amd64
-            slack-linux-amd64/slack-linux-amd64.sha256
+            slackasme-darwin-arm64/slackasme-darwin-arm64
+            slackasme-darwin-arm64/slackasme-darwin-arm64.sha256
+            slackasme-darwin-amd64/slackasme-darwin-amd64
+            slackasme-darwin-amd64/slackasme-darwin-amd64.sha256
+            slackasme-linux-amd64/slackasme-linux-amd64
+            slackasme-linux-amd64/slackasme-linux-amd64.sha256
           body: |
             ## Release ${{ github.ref_name }}
 
@@ -133,9 +133,9 @@ jobs:
       - name: Update formula
         run: |
           # Fetch SHA256s from release
-          ARM64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-arm64.sha256 | awk '{print $1}')
-          AMD64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-amd64.sha256 | awk '{print $1}')
-          LINUX_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-linux-amd64.sha256 | awk '{print $1}')
+          ARM64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slackasme-darwin-arm64.sha256 | awk '{print $1}')
+          AMD64_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slackasme-darwin-amd64.sha256 | awk '{print $1}')
+          LINUX_SHA=$(curl -sL https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slackasme-linux-amd64.sha256 | awk '{print $1}')
           VERSION="${{ github.ref_name }}"
           VERSION="${VERSION#v}"
 
@@ -148,9 +148,9 @@ jobs:
           sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/slackasme.rb
 
           # Update SHA256s (find URL line, replace sha256 on next line)
-          sed -i "/slack-darwin-arm64\"$/{n;s/sha256 \".*\"/sha256 \"$ARM64_SHA\"/}" Formula/slackasme.rb
-          sed -i "/slack-darwin-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$AMD64_SHA\"/}" Formula/slackasme.rb
-          sed -i "/slack-linux-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$LINUX_SHA\"/}" Formula/slackasme.rb
+          sed -i "/slackasme-darwin-arm64\"$/{n;s/sha256 \".*\"/sha256 \"$ARM64_SHA\"/}" Formula/slackasme.rb
+          sed -i "/slackasme-darwin-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$AMD64_SHA\"/}" Formula/slackasme.rb
+          sed -i "/slackasme-linux-amd64\"$/{n;s/sha256 \".*\"/sha256 \"$LINUX_SHA\"/}" Formula/slackasme.rb
 
           echo "Updated formula:"
           cat Formula/slackasme.rb
