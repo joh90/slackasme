@@ -130,5 +130,6 @@ jobs:
           formula-name: slackasme
           homebrew-tap: joh90/homebrew-tap
           download-url: https://github.com/joh90/slackasme/releases/download/${{ github.ref_name }}/slack-darwin-arm64
+          push-to: main
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
