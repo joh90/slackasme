@@ -32,16 +32,16 @@ brew install slackasme
 
 ```bash
 # macOS (Apple Silicon)
-curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-arm64
-chmod +x slack && mv slack /usr/local/bin/
+curl -Lo slackasme https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-arm64
+chmod +x slackasme && mv slackasme /usr/local/bin/
 
 # macOS (Intel)
-curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-amd64
-chmod +x slack && mv slack /usr/local/bin/
+curl -Lo slackasme https://github.com/joh90/slackasme/releases/latest/download/slack-darwin-amd64
+chmod +x slackasme && mv slackasme /usr/local/bin/
 
 # Linux (x64)
-curl -Lo slack https://github.com/joh90/slackasme/releases/latest/download/slack-linux-amd64
-chmod +x slack && mv slack /usr/local/bin/
+curl -Lo slackasme https://github.com/joh90/slackasme/releases/latest/download/slack-linux-amd64
+chmod +x slackasme && mv slackasme /usr/local/bin/
 ```
 
 ### From Source (Development)
@@ -50,7 +50,7 @@ chmod +x slack && mv slack /usr/local/bin/
 git clone https://github.com/joh90/slackasme.git
 cd slackasme
 uv sync
-uv run slack --help
+uv run slackasme --help
 ```
 
 ## Setup
@@ -95,7 +95,7 @@ Go to **OAuth & Permissions** → **User Token Scopes** and add:
 **Option A: Interactive setup (recommended)**
 
 ```bash
-slack auth configure
+slackasme auth configure
 ```
 
 This stores your token securely at `~/.config/slackasme/token` with `600` permissions.
@@ -111,13 +111,13 @@ export SLACK_USER_TOKEN="xoxp-your-token-here"
 ```bash
 #!/bin/bash
 export SLACK_USER_TOKEN="xoxp-your-token-here"
-exec slack "$@"
+exec slackasme "$@"
 ```
 
 ### 5. Test Authentication
 
 ```bash
-slack auth test
+slackasme auth test
 ```
 
 ## Usage
@@ -126,127 +126,127 @@ slack auth test
 
 ```bash
 # Send message to channel
-slack message send general "Hello team!"
-slack message send "#general" "Hello team!"
+slackasme message send general "Hello team!"
+slackasme message send "#general" "Hello team!"
 
 # Send DM to user
-slack message send @username "Hey!"
+slackasme message send @username "Hey!"
 
 # Reply in thread
-slack message send general "Reply here" --thread 1234567890.123456
+slackasme message send general "Reply here" --thread 1234567890.123456
 
 # List recent messages
-slack message list general
-slack message list general --limit 20
+slackasme message list general
+slackasme message list general --limit 20
 
 # Get thread replies
-slack message thread general 1234567890.123456
+slackasme message thread general 1234567890.123456
 
 # Schedule message (Unix timestamp)
-slack message schedule general "Reminder!" 1704067200
+slackasme message schedule general "Reminder!" 1704067200
 
 # Delete message
-slack message delete general 1234567890.123456
+slackasme message delete general 1234567890.123456
 ```
 
 ### Channels
 
 ```bash
 # List channels
-slack channel list
-slack channel list --type private
+slackasme channel list
+slackasme channel list --type private
 
 # Get channel info
-slack channel info general
-slack channel info C12345678
+slackasme channel info general
+slackasme channel info C12345678
 ```
 
 ### Users
 
 ```bash
 # List users
-slack user list
+slackasme user list
 
 # Get user info (by ID, username, or email)
-slack user info U12345678
-slack user info @username
-slack user info user@example.com
+slackasme user info U12345678
+slackasme user info @username
+slackasme user info user@example.com
 ```
 
 ### Direct Messages
 
 ```bash
 # Open DM with user
-slack dm open @username
-slack dm open U12345678
+slackasme dm open @username
+slackasme dm open U12345678
 
 # Open group DM
-slack dm open @user1 @user2 @user3
+slackasme dm open @user1 @user2 @user3
 ```
 
 ### Reactions
 
 ```bash
 # Add reaction
-slack reaction add general 1234567890.123456 eyes
+slackasme reaction add general 1234567890.123456 eyes
 
 # Remove reaction
-slack reaction remove general 1234567890.123456 eyes
+slackasme reaction remove general 1234567890.123456 eyes
 ```
 
 ### Files
 
 ```bash
 # Upload file
-slack file upload general /path/to/file.png
-slack file upload general /path/to/file.png --message "Screenshot"
+slackasme file upload general /path/to/file.png
+slackasme file upload general /path/to/file.png --message "Screenshot"
 
 # List files
-slack file list general
+slackasme file list general
 ```
 
 ### Search
 
 ```bash
 # Search messages
-slack search messages "deployment issue"
-slack search messages "from:@johnson in:#general"
+slackasme search messages "deployment issue"
+slackasme search messages "from:@johnson in:#general"
 
 # Search users
-slack search users "johnson"
+slackasme search users "johnson"
 ```
 
 ### Auth
 
 ```bash
 # Test authentication
-slack auth test
+slackasme auth test
 
 # Configure token interactively
-slack auth configure
+slackasme auth configure
 
 # Remove stored token
-slack auth logout
+slackasme auth logout
 ```
 
 ### Global Options
 
 ```bash
 # JSON output (for scripting)
-slack message list general --json
+slackasme message list general --json
 
 # Verbose output
-slack message send general "Hi" --verbose
+slackasme message send general "Hi" --verbose
 
 # Debug output (includes SDK logs)
-slack message list general --debug
+slackasme message list general --debug
 
 # Help
-slack --help
-slack message --help
+slackasme --help
+slackasme message --help
 
 # Version
-slack --version
+slackasme --version
 ```
 
 ## Development
@@ -267,11 +267,11 @@ cd slackasme
 uv sync
 
 # Run CLI
-uv run slack --help
+uv run slackasme --help
 
 # Or install in editable mode
 uv pip install -e .
-slack --help
+slackasme --help
 ```
 
 ### Testing
@@ -319,14 +319,14 @@ uv pip install pyinstaller
 
 # Build single binary
 uv run pyinstaller --onefile \
-  --name slack \
+  --name slackasme \
   --hidden-import slack_sdk \
   --hidden-import click \
   --hidden-import rich \
   slackasme/__main__.py
 
 # Test binary
-./dist/slack --version
+./dist/slackasme --version
 ```
 
 ### Releasing

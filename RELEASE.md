@@ -92,7 +92,7 @@ brew install slackasme
 brew upgrade slackasme
 
 # Verify
-slack --version
+slackasme --version
 ```
 
 ## Artifacts

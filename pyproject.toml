@@ -19,7 +19,7 @@ dev = [
 ]
 
 [project.scripts]
-slack = "slackasme.cli:cli"
+slackasme = "slackasme.cli:cli"
 
 [build-system]
 requires = ["setuptools>=61.0"]

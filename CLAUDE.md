@@ -51,7 +51,7 @@ def send(channel, text):
 ### Token Priority
 
 1. `SLACK_USER_TOKEN` environment variable (for CI, scripts, wrappers)
-2. `~/.config/slackasme/token` file (interactive use via `slack auth configure`)
+2. `~/.config/slackasme/token` file (interactive use via `slackasme auth configure`)
 
 ### Validation Limits
 
